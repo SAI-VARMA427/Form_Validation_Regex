@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation with Regex</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    form {
+      max-width: 400px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: darkgreen;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Registration Form</h2>
+  <form id="myForm">
+    <!-- Name -->
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+    <div id="nameError" class="error"></div>
+    <!-- Email -->
+    <label for="email">Email</label>
+    <input type="text" id="email" placeholder="Enter your email">
+    <div id="emailError" class="error"></div>
+    <!-- Password -->
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password">
+    <div id="passwordError" class="error"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById("myForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // prevent form submission
+      // Regex Patterns
+      const namePattern = /^[A-Za-z ]{3,20}$/; // only letters & spaces, 3-20 chars
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+      const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+      // password: min 6 chars, 1 uppercase, 1 number, 1 special char
+
+      // Inputs
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Error containers
+      const nameError = document.getElementById("nameError");
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+      let isValid = true;
+      // Name Validation
+      if (!namePattern.test(name)) {
+        nameError.textContent = "Name must be 3-20 characters (letters only).";
+        isValid = false;
+      } else {
+        nameError.textContent = "";
+      }
+      // Email Validation
+      if (!emailPattern.test(email)) {
+        emailError.textContent = "Enter a valid email address.";
+        isValid = false;
+      } else {
+        emailError.textContent = "";
+      }
+      // Password Validation
+      if (!passwordPattern.test(password)) {
+        passwordError.textContent = "Password must be 6+ chars, include 1 uppercase, 1 number & 1 special character.";
+        isValid = false;
+      } else {
+        passwordError.textContent = "";
+      }
+      // Final check
+      if (isValid) {
+        alert("Form submitted successfully!");
+        // You can submit form data here (AJAX or backend call)
+      }
+    });
+  </script>
+</body>
+</html>
